@@ -1,0 +1,41 @@
+﻿[
+    {
+        "id": 1,
+        "name": "血瓶",
+        "type": "Consumable",
+        "quality": "Common",
+        "description": "这是用来恢复生命值",
+        "capacity": 10,
+        "buyPrice": 10,
+        "sellPrice": 5,
+        "hp": 10,
+        "mp": 0,
+        "sprite": "Sprites/Items/hp"
+    },
+    {
+        "id": 2,
+        "name": "魔瓶",
+        "type": "Consumable",
+        "quality": "Common",
+        "description": "这是用来恢复魔法值",
+        "capacity": 10,
+        "buyPrice": 10,
+        "sellPrice": 5,
+        "hp": 0,
+        "mp": 10,
+        "sprite": "Sprites/Items/mp"
+    },
+    {
+        "id": 3,
+        "name": "混合药剂",
+        "type": "Consumable",
+        "quality": "Common",
+        "description": "这是用来恢复生命值和魔法值",
+        "capacity": 10,
+        "buyPrice": 20,
+        "sellPrice": 10,
+        "hp": 10,
+        "mp": 10,
+        "sprite": "Sprites/Items/hpmp"
+    }
+]
