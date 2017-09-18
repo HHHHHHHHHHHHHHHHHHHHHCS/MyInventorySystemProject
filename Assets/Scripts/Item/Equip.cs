@@ -43,13 +43,13 @@
 
     public Equip(int id, string name, ItemType type, ItemQualityType qualityType
         , string description, int capacity, int buyPrice, int sellPrice, string sprite
-        , int strength, int intellect, int agility, int stamina)
+        , int strength, int intellect, int agility, int stamina, EquipmentType equipType)
         : base(id, name, type, qualityType, description, capacity, buyPrice, sellPrice, sprite)
     {
         Strength = strength;
         Intellect = intellect;
         Agility = agility;
         Stamina = stamina;
-
+        EquipType = equipType;
     }
 }

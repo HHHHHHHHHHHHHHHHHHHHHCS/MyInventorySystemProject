@@ -37,9 +37,47 @@ public class InventorySystem : MonoBehaviour
 
         print(Time.realtimeSinceStartup);
         JArray jArray = JArray.Parse(itemJsonText);
-        foreach (var a in jArray)
+        foreach (var temp in jArray)
         {
-            Debug.Log(a);
+            int id = (int)(temp["hp"]);
+            string name = (string)(temp["name"]);
+            ItemBase.ItemType type = (ItemBase.ItemType)System.Enum.Parse(typeof(ItemBase.ItemType)
+                , temp["type"].ToString());
+            ItemBase.ItemQualityType qualityType = (ItemBase.ItemQualityType)System.Enum.Parse(typeof(ItemBase.ItemQualityType)
+                , temp["quality"].ToString());
+            string description = (string)(temp["description"]);
+            int capacity = (int)(temp["capacity"]);
+            int buyPrice = (int)(temp["buyPrice"]);
+            int sellPrice = (int)(temp["sellPrice"]);
+            string sprite = (string)(temp["sprite"]);
+
+            ItemBase item = null;
+            switch (type)
+            {
+                case ItemBase.ItemType.Consumable:
+                    int hp = (int)(temp["hp"]);
+                    int mp = (int)(temp["mp"]);
+                    item = new Consumable(id, name, type, qualityType, description, capacity
+                        , buyPrice, sellPrice, sprite, hp, mp);
+                    break;
+                case ItemBase.ItemType.Equipment:
+                    int strength = (int)(temp["strength"]);
+                    int intellect = (int)(temp["intellect"]);
+                    int agility = (int)(temp["agility"]);
+                    int stamina = (int)(temp["stamina"]);
+                    Equip.EquipmentType equipType = (Equip.EquipmentType)System.Enum.Parse(
+                        typeof(Equip.EquipmentType), temp["equipType"].ToString());
+                    item = new Equip(id, name, type, qualityType, description, capacity
+                        , buyPrice, sellPrice, sprite, strength, intellect, agility, stamina, equipType);
+
+                    break;
+                case ItemBase.ItemType.Weapon:
+                    break;
+                case ItemBase.ItemType.Material:
+                    break;
+                default:
+                    break;
+            }
         }
         print(Time.realtimeSinceStartup);
     }

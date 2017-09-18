@@ -27,7 +27,7 @@
     },
     {
         "id": 3,
-        "name": "混合药剂",
+        "name": "短剑",
         "type": "Consumable",
         "quality": "Common",
         "description": "这是用来恢复生命值和魔法值",
