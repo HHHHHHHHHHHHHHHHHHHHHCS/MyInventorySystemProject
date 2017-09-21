@@ -4,18 +4,18 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-public class InventorySystem : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
     #region
-    private static InventorySystem _instance;
+    private static InventoryManager _instance;
 
-    public static InventorySystem Instnace
+    public static InventoryManager Instnace
     {
         get
         {
             if (_instance == null)
             {
-                _instance = GameObject.Find("InventorySystem").GetComponent<InventorySystem>();
+                _instance = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
             }
             return _instance;
         }
@@ -24,6 +24,11 @@ public class InventorySystem : MonoBehaviour
 
     private List<ItemBase> itemList;
 
+
+    private void Awake()
+    {
+        Instnace.ParseItemJson();
+    }
 
     /// <summary>
     /// 解析JSON文件
@@ -35,7 +40,7 @@ public class InventorySystem : MonoBehaviour
         TextAsset itemJson = Resources.Load<TextAsset>("Json/ItemJson");
         string itemJsonText = itemJson.text;
 
-        print(Time.realtimeSinceStartup);
+
         JArray jArray = JArray.Parse(itemJsonText);
         foreach (var temp in jArray)
         {
@@ -78,12 +83,21 @@ public class InventorySystem : MonoBehaviour
                 default:
                     break;
             }
+            itemList.Add(item);
         }
-        print(Time.realtimeSinceStartup);
+
     }
 
-    private void Awake()
+
+    public ItemBase GetItemByID(int id)
     {
-        Instnace.ParseItemJson();
+        foreach (ItemBase item in itemList)
+        {
+            if (item.ID == id)
+            {
+                return item;
+            }
+        }
+        return null;
     }
 }
