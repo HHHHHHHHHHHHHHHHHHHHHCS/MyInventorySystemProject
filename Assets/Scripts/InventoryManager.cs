@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         JArray jArray = JArray.Parse(itemJsonText);
         foreach (var temp in jArray)
         {
-            int id = (int)(temp["hp"]);
+            int id = (int)(temp["id"]);
             string name = (string)(temp["name"]);
             ItemBase.ItemType type = (ItemBase.ItemType)System.Enum.Parse(typeof(ItemBase.ItemType)
                 , temp["type"].ToString());

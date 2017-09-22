@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
+    public GameObject itemPrefab;
 
     /// <summary>
     /// 把item 放在自身下面
@@ -13,7 +14,17 @@ public class Slot : MonoBehaviour
     /// <param name="item"></param>
     public void StoreItem(ItemBase item)
     {
-
+        if (transform.childCount == 0)
+        {
+            Transform itemTransform = Instantiate(itemPrefab).transform;
+            itemTransform.SetParent(transform);
+            itemTransform.localPosition = Vector3.zero;
+            itemTransform.GetComponent<ItemUI>().SetItem(item);
+        }
+        else
+        {
+            transform.GetChild(0).GetComponent<ItemUI>().AddAmount();
+        }
     }
 
     /// <summary>

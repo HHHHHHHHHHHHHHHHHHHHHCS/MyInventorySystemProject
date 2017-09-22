@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class InventoryBase : MonoBehaviour
 {
+
+
     private Slot[] slotList;
-    // Use this for initialization
+
     void Start()
     {
         slotList = GetComponentsInChildren<Slot>();
     }
 
-    // Update is called once per frame
-    bool StoreItem(int id)
+
+    public bool StoreItem(int id)
     {
         ItemBase item = InventoryManager.Instnace.GetItemByID(id);
         return StoreItem(item);
@@ -33,7 +35,7 @@ public class InventoryBase : MonoBehaviour
         else
         {
             Slot slot = FindSameTypeSlot(item);
-            if(slot)
+            if (slot)
             {
                 slot.StoreItem(item);
                 return true;
