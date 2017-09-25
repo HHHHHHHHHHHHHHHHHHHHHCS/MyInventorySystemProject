@@ -74,6 +74,7 @@ public class InventoryBase : MonoBehaviour
             {
                 return slot;
             }
+ 
         }
         return null;
     }

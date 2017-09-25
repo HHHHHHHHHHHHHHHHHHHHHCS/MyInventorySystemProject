@@ -10,7 +10,7 @@
         "sellPrice": 5,
         "hp": 10,
         "mp": 0,
-        "sprite": "Sprites/Items/hp"
+        "sprite": "Items/hp"
     },
     {
         "id": 2,
@@ -23,7 +23,7 @@
         "sellPrice": 5,
         "hp": 0,
         "mp": 10,
-        "sprite": "Sprites/Items/mp"
+        "sprite": "Items/mp"
     },
     {
         "id": 3,
@@ -36,6 +36,6 @@
         "sellPrice": 10,
         "hp": 10,
         "mp": 10,
-        "sprite": "Sprites/Items/hpmp"
+        "sprite": "Items/hpmp"
     }
 ]
