@@ -24,10 +24,13 @@ public class InventoryManager : MonoBehaviour
 
     private List<ItemBase> itemList;
 
+    private ItemTip itemTip;
 
     private void Awake()
     {
         Instnace.ParseItemJson();
+        itemTip = FindObjectOfType<ItemTip>();
+        HideItemTip();
     }
 
     /// <summary>
@@ -99,5 +102,22 @@ public class InventoryManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void ShowItemTip(string content=null)
+    {
+        if(string.IsNullOrEmpty(content))
+        {
+            itemTip.Show();
+        }
+        else
+        {
+            itemTip.ShowText(content);
+        }
+    }
+
+    public void HideItemTip()
+    {
+        itemTip.Hide();
     }
 }

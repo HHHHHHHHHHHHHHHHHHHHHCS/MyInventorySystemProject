@@ -1,16 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ItemTip : MonoBehaviour {
+public class ItemTip : MonoBehaviour
+{
+    
+    private Text contentText;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Awake()
+    {
+        contentText = GetComponentInChildren<Text>();
+
+    }
+
+    public void ShowText(string text)
+    {
+        contentText.text = text;
+        Show();
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }
