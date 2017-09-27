@@ -67,4 +67,13 @@ public class ItemBase
         SellPrice = sellPrice;
         Sprite = sprite;
     }
+
+    /// <summary>
+    /// 得到提示面板应该显示的内容
+    /// </summary>
+    /// <returns></returns>
+    public virtual string GetItemTipText()
+    {
+        return Name;//TODO:
+    }
 }

@@ -31,6 +31,7 @@ public class InventoryManager : MonoBehaviour
         Instnace.ParseItemJson();
         itemTip = FindObjectOfType<ItemTip>();
         HideItemTip();
+
     }
 
     /// <summary>

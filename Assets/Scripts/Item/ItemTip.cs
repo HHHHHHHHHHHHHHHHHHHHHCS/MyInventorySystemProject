@@ -6,17 +6,24 @@ using UnityEngine.UI;
 public class ItemTip : MonoBehaviour
 {
     
-    private Text contentText;
+    private Text _contentText;
 
-    private void Awake()
+    public Text ContentText
     {
-        contentText = GetComponentInChildren<Text>();
-
+        get
+        {
+            if(_contentText==null)
+            {
+                _contentText = GetComponentInChildren<Text>();
+            }
+            return _contentText;
+        }
     }
+
 
     public void ShowText(string text)
     {
-        contentText.text = text;
+        ContentText.text = text;
         Show();
     }
 

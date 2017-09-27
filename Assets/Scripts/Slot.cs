@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     public GameObject itemPrefab;
 
@@ -41,5 +43,25 @@ public class Slot : MonoBehaviour
         ItemUI itemUI = transform.GetChild(0).GetComponent<ItemUI>();
         return itemUI.Amount >= itemUI.Item.Capcity;//当前的数量大于最大叠加的量
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(transform.childCount>0)
+        {
+            string toolTipText = transform.GetChild(0).GetComponent<ItemUI>()
+                .Item.GetItemTipText();
+            InventoryManager.Instnace.ShowItemTip(toolTipText);
+        }
+    }
+
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (transform.childCount > 0)
+        {
+            InventoryManager.Instnace.HideItemTip();
+        }
+    }
+
 
 }
