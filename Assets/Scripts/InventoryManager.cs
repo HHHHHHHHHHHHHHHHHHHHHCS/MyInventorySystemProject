@@ -26,12 +26,34 @@ public class InventoryManager : MonoBehaviour
 
     private ItemTip itemTip;
 
+    private bool isToolTipShow = false;
+
+    private Canvas canvas;
+
+    private Vector3 lastMousePos;
+
     private void Awake()
     {
+        canvas = GameObject.Find("UIRoot").GetComponent<Canvas>();
         Instnace.ParseItemJson();
         itemTip = FindObjectOfType<ItemTip>();
         HideItemTip();
+    }
 
+    private void Update()
+    {
+        if(isToolTipShow)
+        {
+            //控制提示面板跟随鼠标
+            if (lastMousePos!=Input.mousePosition)
+            {
+                lastMousePos = Input.mousePosition;
+                Vector2 _pos = Vector2.zero;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
+                            lastMousePos, canvas.worldCamera, out _pos);
+                itemTip.SetLocalPosition(_pos);
+            }
+        }
     }
 
     /// <summary>
@@ -115,10 +137,15 @@ public class InventoryManager : MonoBehaviour
         {
             itemTip.ShowText(content);
         }
+
+        isToolTipShow = true;
     }
 
     public void HideItemTip()
     {
         itemTip.Hide();
+        isToolTipShow = false;
     }
+
+
 }

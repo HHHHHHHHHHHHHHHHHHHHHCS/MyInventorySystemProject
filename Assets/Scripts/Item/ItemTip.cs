@@ -20,6 +20,13 @@ public class ItemTip : MonoBehaviour
         }
     }
 
+    private RectTransform panelRect;
+
+    private void Awake()
+    {
+        panelRect = transform.FindChild("Panel").transform as RectTransform;
+    }
+
 
     public void ShowText(string text)
     {
@@ -35,5 +42,13 @@ public class ItemTip : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetLocalPosition(Vector3 position)
+    {
+        Vector2 newPos = panelRect.anchoredPosition;
+        newPos.y = -panelRect.sizeDelta.y/2 - 40;
+        panelRect.anchoredPosition = newPos;
+        transform.localPosition = position;
     }
 }
