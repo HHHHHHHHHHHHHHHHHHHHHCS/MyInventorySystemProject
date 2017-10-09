@@ -5,6 +5,7 @@
     {
         Head,
         Neck,
+        Chest,
         Ring,
         Leg,
         Bracer,
@@ -12,7 +13,7 @@
         Trinket,
         Shoulder,
         Belt,
-        offHand
+        OffHand
     }
 
 

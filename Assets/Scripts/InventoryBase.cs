@@ -34,7 +34,7 @@ public class InventoryBase : MonoBehaviour
         }
         else
         {
-            Slot slot = FindSameTypeSlot(item);
+            Slot slot = FindSameIDSlot(item);
             if (slot)
             {
                 slot.StoreItem(item);
@@ -81,12 +81,12 @@ public class InventoryBase : MonoBehaviour
 
 
 
-    private Slot FindSameTypeSlot(ItemBase item)
+    private Slot FindSameIDSlot(ItemBase item)
     {
         foreach (Slot slot in slotList)
         {
             if (slot.transform.childCount >= 1
-                && slot.GetItemType() == item.Type
+                && slot.GetItemID() == item.ID
                 && !slot.IsFilled())
             {
                 return slot;

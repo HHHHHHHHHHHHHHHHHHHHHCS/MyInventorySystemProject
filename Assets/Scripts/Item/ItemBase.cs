@@ -21,10 +21,10 @@ public class ItemBase
     public enum ItemQualityType
     {
         Common,
-        Ummon,
+        Uncommon,
         Rare,
         Epic,
-        Legerdary,
+        Legendary,
         Artifact
     }
 
@@ -74,6 +74,6 @@ public class ItemBase
     /// <returns></returns>
     public virtual string GetItemTipText()
     {
-        return Name;//TODO:
+        return Description;//TODO:
     }
 }

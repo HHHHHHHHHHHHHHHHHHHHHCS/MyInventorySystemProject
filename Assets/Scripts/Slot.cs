@@ -38,6 +38,15 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         return transform.GetChild(0).GetComponent<ItemUI>().Item.Type;
     }
 
+    /// <summary>
+    /// 得到当前物品槽存储的物品ID
+    /// </summary>
+    /// <returns></returns>
+    public int GetItemID()
+    {
+        return transform.GetChild(0).GetComponent<ItemUI>().Item.ID;
+    }
+
     public bool IsFilled()
     {
         ItemUI itemUI = transform.GetChild(0).GetComponent<ItemUI>();
