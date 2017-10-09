@@ -186,5 +186,31 @@
         "intellect": 15,
         "agility": 15,
         "stamina": 30
+    },
+    {
+        "id": 13,
+        "name": "斧子",
+        "type": "Weapon",
+        "quality": "Legendary",
+        "description": "力劈华山",
+        "capacity": 1,
+        "buyPrice": 100,
+        "sellPrice": 50,
+        "sprite": "Items/axe",
+        "weaponType": "MainHand",
+        "damage": 100
+    },
+    {
+        "id": 14,
+        "name": "大保剑",
+        "type": "Weapon",
+        "quality": "Legendary",
+        "description": "来，大保Jian!",
+        "capacity": 1,
+        "buyPrice": 200,
+        "sellPrice": 100,
+        "sprite": "Items/sword",
+        "weaponType": "MainHand",
+        "damage": 200
     }
 ]
