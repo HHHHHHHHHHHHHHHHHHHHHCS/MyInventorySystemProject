@@ -110,6 +110,8 @@ public class InventoryManager : MonoBehaviour
                         , buyPrice, sellPrice, sprite, damage, weaponType);
                     break;
                 case ItemBase.ItemType.Material:
+                    item = new Material(id, name, type, qualityType, description, capacity
+                        , buyPrice, sellPrice, sprite);
                     break;
                 default:
                     break;

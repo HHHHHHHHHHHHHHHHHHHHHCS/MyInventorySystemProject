@@ -212,5 +212,38 @@
         "sprite": "Items/sword",
         "weaponType": "MainHand",
         "damage": 200
+    },
+    {
+        "id": 15,
+        "name": "金背大砍斧的锻造秘籍",
+        "type": "Material",
+        "quality": "Legendary",
+        "description": "I have a diea!",
+        "capacity": 1,
+        "buyPrice": 200,
+        "sellPrice": 100,
+        "sprite": "Items/book"
+    },
+    {
+        "id": 16,
+        "name": "吉利盔的锻造秘籍",
+        "type": "Material",
+        "quality": "Legendary",
+        "description": "DA JI DA LI,JIN WAN CHI JI!",
+        "capacity": 1,
+        "buyPrice": 200,
+        "sellPrice": 100,
+        "sprite": "Items/scroll"
+    },
+    {
+        "id": 17,
+        "name": "铁块",
+        "type": "Material",
+        "quality": "Common",
+        "description": "我是用了干别的！",
+        "capacity": 1,
+        "buyPrice": 200,
+        "sellPrice": 100,
+        "sprite": "Items/ingots"
     }
 ]

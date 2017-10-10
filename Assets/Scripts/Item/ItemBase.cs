@@ -69,11 +69,60 @@ public class ItemBase
     }
 
     /// <summary>
+    /// 得带物品基础信息
+    /// </summary>
+    /// <returns></returns>
+    protected virtual string GetItemBaseText()
+    {
+        string nameColor = "white";
+        switch (QualityType)
+        {
+            case ItemQualityType.Common:
+                nameColor = "white";
+                break;
+            case ItemQualityType.Uncommon:
+                nameColor = "green";
+                break;
+            case ItemQualityType.Rare:
+                nameColor = "blue";
+                break;
+            case ItemQualityType.Epic:
+                nameColor = "purple";
+                break;
+            case ItemQualityType.Legendary:
+                nameColor = "orange";
+                break;
+            case ItemQualityType.Artifact:
+                nameColor = "cyan";
+                break;
+            default:
+                nameColor = "white";
+                break;
+        }
+        string newName = string.Format("<color={0}><size=28>{1}</size></color>", nameColor, Name);
+        string text =
+        string.Format("{0}\n物品描述：{1}\n", newName, Description);
+        return text;
+    }
+
+    /// <summary>
+    /// 得到物品的价格
+    /// </summary>
+    /// <returns></returns>
+    protected virtual string GetItemPriceText()
+    {
+        string text =
+        string.Format("购买价格：{0}\n贩卖价格：{1}", BuyPrice, SellPrice);
+        return text;
+    }
+
+    /// <summary>
     /// 得到提示面板应该显示的内容
     /// </summary>
     /// <returns></returns>
     public virtual string GetItemTipText()
     {
-        return Description;//TODO:
+        string text = string.Format("{0}{1}", GetItemBaseText(), GetItemPriceText());
+        return text;
     }
 }
