@@ -18,6 +18,31 @@
     {
         Damage = damage;
         WeaponType = weaponType;
+    }
 
+    protected virtual string GetItemEffectText()
+    {
+        string waeponType;
+        switch (WeaponType)
+        {
+            case ItemWeaponType.MainHand:
+                waeponType = "主手";
+                break;
+            case ItemWeaponType.OffHand:
+                waeponType = "副手";
+                break;
+            default:
+                waeponType = "无";
+                break;
+        }
+        string text =
+            string.Format("部位:{0}\n<color=red>伤害:{1}</color>\n"
+            , waeponType,  Damage);
+        return text;
+    }
+
+    public override string GetItemTipText()
+    {
+        return string.Format("{0}{1}{2}", GetItemBaseText(), GetItemEffectText(), GetItemPriceText());
     }
 }

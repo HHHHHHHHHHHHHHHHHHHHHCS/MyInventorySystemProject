@@ -101,7 +101,7 @@
         "buyPrice": 40,
         "sellPrice": 20,
         "sprite": "Items/gloves",
-        "equipType": "OffHand",
+        "equipType": "Glove",
         "strength": 0,
         "intellect": 50,
         "agility": 50,
