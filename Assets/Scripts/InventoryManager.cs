@@ -32,12 +32,16 @@ public class InventoryManager : MonoBehaviour
 
     private Vector3 lastMousePos;
 
+    private ItemUI pickedItem;//鼠标选中的物体
+
     private void Awake()
     {
         canvas = GameObject.Find("UIRoot").GetComponent<Canvas>();
         Instnace.ParseItemJson();
         itemTip = FindObjectOfType<ItemTip>();
         HideItemTip();
+        pickedItem = GameObject.Find("PickedItem").GetComponent<ItemUI>();
+        pickedItem.gameObject.SetActive(true);
     }
 
     private void Update()

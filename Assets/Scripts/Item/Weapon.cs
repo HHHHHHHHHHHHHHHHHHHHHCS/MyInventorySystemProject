@@ -32,7 +32,7 @@
                 waeponType = "副手";
                 break;
             default:
-                waeponType = "无";
+                waeponType = "武器";
                 break;
         }
         string text =

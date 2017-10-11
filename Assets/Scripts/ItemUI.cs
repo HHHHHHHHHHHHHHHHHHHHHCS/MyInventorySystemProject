@@ -54,4 +54,19 @@ public class ItemUI : MonoBehaviour
         //更新显示UI
         amountText.text = Amount.ToString();
     }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void SetLocalPosition(Vector3 position)
+    {
+        transform.localPosition = position;
+    }
 }
