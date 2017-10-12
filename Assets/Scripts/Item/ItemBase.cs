@@ -40,7 +40,7 @@ public class ItemBase
 
     public string Description { get; set; }
 
-    public int Capcity { get; set; }
+    public int Capacity { get; set; }
 
     public int BuyPrice { get; set; }
 
@@ -62,7 +62,7 @@ public class ItemBase
         Type = type;
         QualityType = qualityType;
         Description = description;
-        Capcity = capacity;
+        Capacity = capacity;
         BuyPrice = buyPrice;
         SellPrice = sellPrice;
         Sprite = sprite;

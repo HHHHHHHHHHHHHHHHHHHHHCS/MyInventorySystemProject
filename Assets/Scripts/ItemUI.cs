@@ -11,6 +11,8 @@ public class ItemUI : MonoBehaviour
 
     private Image itemImage;
     private Text amountText;
+
+    private bool needShowText;
     #endregion
 
     #region Init UI Compents
@@ -45,15 +47,33 @@ public class ItemUI : MonoBehaviour
         Amount = amount;
         //更新显示UI
         ItemImage.sprite = Resources.Load<Sprite>(item.Sprite);
-        AmountText.text = Amount.ToString();
+        needShowText = Item.Capacity > 1;
+        SetText(Amount);
+    }
+
+    public void SetItemUI(ItemUI itemUI)
+    {
+        SetItem(itemUI.Item, itemUI.Amount);
     }
 
     public void AddAmount(int number = 1)
     {
         Amount += number;
         //更新显示UI
-        amountText.text = Amount.ToString();
+        SetText(Amount);
     }
+
+    public void SetAmount(int number)
+    {
+        Amount = number;
+        SetText(Amount);
+    }
+
+    private void SetText(int number)
+    {
+        AmountText.text = needShowText?number.ToString():"";
+    }
+
 
     public void Show()
     {

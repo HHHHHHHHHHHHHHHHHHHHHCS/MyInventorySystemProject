@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
+    IPointerDownHandler
 {
     public GameObject itemPrefab;
 
@@ -50,12 +51,12 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     public bool IsFilled()
     {
         ItemUI itemUI = transform.GetChild(0).GetComponent<ItemUI>();
-        return itemUI.Amount >= itemUI.Item.Capcity;//当前的数量大于最大叠加的量
+        return itemUI.Amount >= itemUI.Item.Capacity;//当前的数量大于最大叠加的量
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(transform.childCount>0)
+        if (transform.childCount > 0)
         {
             string toolTipText = transform.GetChild(0).GetComponent<ItemUI>()
                 .Item.GetItemTipText();
@@ -72,5 +73,59 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         }
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        //自身是空的 
+        //  1、pickedItem!=null pickedItem放在这个位置
+        //      按下CTRL 放置当前鼠标上的物品一个
+        //      没有按下CTRL 放置当前鼠标上的物品的所有
+        //  2、pickedItem==null 不做任何处理
+        //自身不是空的
+        //  1、pickedItem!=null pickedItem  跟当前物品进行交换
+        //      自身的 id==pickedItem.id
+        //          按下CTRL 放置当前鼠标上的物品一个
+        //          没有按下CTRL 放置当前鼠标上的物品的所有物品
+        //              可以完全放下
+        //              只能放下其中一部分
+        //      自身的 id!=pickedItem.id  pickedItem跟当前物品交换
+        //  2、pickedItem==null 把当前物品槽里面的物品放在鼠标上
+        //      ctrl按下 取得当前物品槽中物品的一半
+        //      ctrl没有按下的时候 把当前物品槽里面的物品放到鼠标上 
 
+
+        //自身不是空的
+        if (transform.childCount > 0)
+        {
+            ItemUI currentItem = transform.GetChild(0).GetComponent<ItemUI>();
+
+            //鼠标上的物品是空的
+            if (!InventoryManager.Instnace.IsPickedItem)
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    int amountPicked = (int)Mathf.Ceil(currentItem.Amount / 2.0f);
+                    InventoryManager.Instnace.PickupItem(currentItem, amountPicked);
+                    int amountRemained = currentItem.Amount - amountPicked;
+                    if(amountRemained<=0)
+                    {
+                        Destroy(currentItem.gameObject);//销毁当前物品
+                    }
+                    else
+                    {
+                        currentItem.SetAmount(amountRemained);
+                    }
+                }
+                else
+                {
+                    InventoryManager.Instnace.PickupItem(currentItem);
+                    Destroy(currentItem.gameObject);//销毁当前物品
+                } 
+            }
+            else
+            {
+
+            }
+        }
+
+    }
 }

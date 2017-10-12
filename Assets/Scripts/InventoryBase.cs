@@ -28,7 +28,7 @@ public class InventoryBase : MonoBehaviour
             return false;
         }
 
-        if (item.Capcity == 1)
+        if (item.Capacity == 1)
         {
             return StoreEmptySlot(item);
         }

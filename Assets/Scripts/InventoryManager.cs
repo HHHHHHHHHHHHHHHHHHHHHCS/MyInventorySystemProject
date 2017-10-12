@@ -24,15 +24,37 @@ public class InventoryManager : MonoBehaviour
 
     private List<ItemBase> itemList;
 
+
+    #region  ItemTip
     private ItemTip itemTip;
 
     private bool isToolTipShow = false;
 
+    private Vector3 lastMousePos;
+    #endregion
+
     private Canvas canvas;
 
-    private Vector3 lastMousePos;
+    #region PickItem
+
+
+    public bool IsPickedItem
+    {
+        get;
+        private set;
+    }
+
 
     private ItemUI pickedItem;//鼠标选中的物体
+
+    public ItemUI PickedItem
+    {
+        get
+        {
+            return pickedItem;
+        }
+    }
+    #endregion
 
     private void Awake()
     {
@@ -41,15 +63,15 @@ public class InventoryManager : MonoBehaviour
         itemTip = FindObjectOfType<ItemTip>();
         HideItemTip();
         pickedItem = GameObject.Find("PickedItem").GetComponent<ItemUI>();
-        pickedItem.gameObject.SetActive(true);
+        pickedItem.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if(isToolTipShow)
+        if (isToolTipShow)
         {
             //控制提示面板跟随鼠标
-            if (lastMousePos!=Input.mousePosition)
+            if (lastMousePos != Input.mousePosition)
             {
                 lastMousePos = Input.mousePosition;
                 Vector2 _pos = Vector2.zero;
@@ -138,9 +160,9 @@ public class InventoryManager : MonoBehaviour
         return null;
     }
 
-    public void ShowItemTip(string content=null)
+    public void ShowItemTip(string content = null)
     {
-        if(string.IsNullOrEmpty(content))
+        if (string.IsNullOrEmpty(content))
         {
             itemTip.Show();
         }
@@ -158,5 +180,17 @@ public class InventoryManager : MonoBehaviour
         isToolTipShow = false;
     }
 
+    //拾取物品槽中所有数量的物品
+    public void PickupItem(ItemUI itemUI)
+    {
+        PickedItem.SetItemUI(itemUI);
+        IsPickedItem = true;
+    }
 
+    //捡起物品槽指定数量的物品
+    public void PickupItem(ItemUI itemUI, int amount)
+    {
+        PickedItem.SetItem(itemUI.Item, amount);
+        IsPickedItem = true;
+    }
 }
