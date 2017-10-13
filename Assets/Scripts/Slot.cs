@@ -123,7 +123,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             }
             else
             {
-
+                InventoryManager.Instnace.PickupItem(currentItem);
+                Destroy(currentItem.gameObject);
             }
         }
 

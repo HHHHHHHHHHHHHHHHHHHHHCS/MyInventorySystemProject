@@ -33,7 +33,8 @@ public class InventoryManager : MonoBehaviour
     private Vector3 lastMousePos;
     #endregion
 
-    private Canvas canvas;
+    private RectTransform canvasRT;
+    private Camera canvasCamera;
 
     #region PickItem
 
@@ -58,7 +59,9 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        canvas = GameObject.Find("UIRoot").GetComponent<Canvas>();
+        Canvas canvas = GameObject.Find("UIRoot").GetComponent<Canvas>();
+        canvasRT = canvas.transform as RectTransform;
+        canvasCamera = canvas.worldCamera;
         Instnace.ParseItemJson();
         itemTip = FindObjectOfType<ItemTip>();
         HideItemTip();
@@ -68,18 +71,32 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (isToolTipShow)
+        if (IsPickedItem || isToolTipShow)
         {
-            //控制提示面板跟随鼠标
-            if (lastMousePos != Input.mousePosition)
+            Vector2 pos = ScreenPointToUI();
+            if (IsPickedItem)
             {
-                lastMousePos = Input.mousePosition;
-                Vector2 _pos = Vector2.zero;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
-                            lastMousePos, canvas.worldCamera, out _pos);
-                itemTip.SetLocalPosition(_pos);
+                PickedItem.SetLocalPosition(pos);
+            }
+            else if (isToolTipShow)
+            {
+                //控制提示 面板跟随鼠标
+                Vector3 mousePos = Input.mousePosition;
+                if (lastMousePos != mousePos)
+                {
+                    lastMousePos = mousePos;
+                    itemTip.SetLocalPosition(pos);
+                }
             }
         }
+    }
+
+    private Vector2 ScreenPointToUI()
+    {
+        Vector2 _pos = Vector2.zero;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRT,
+                    Input.mousePosition, canvasCamera, out _pos);
+        return _pos;
     }
 
     /// <summary>
@@ -162,6 +179,11 @@ public class InventoryManager : MonoBehaviour
 
     public void ShowItemTip(string content = null)
     {
+        if (IsPickedItem)
+        {
+            return;
+        }
+
         if (string.IsNullOrEmpty(content))
         {
             itemTip.Show();
@@ -180,17 +202,27 @@ public class InventoryManager : MonoBehaviour
         isToolTipShow = false;
     }
 
+
+
     //拾取物品槽中所有数量的物品
     public void PickupItem(ItemUI itemUI)
     {
-        PickedItem.SetItemUI(itemUI);
-        IsPickedItem = true;
+        PickupItem(itemUI.Item, itemUI.Amount);
     }
+
 
     //捡起物品槽指定数量的物品
     public void PickupItem(ItemUI itemUI, int amount)
     {
-        PickedItem.SetItem(itemUI.Item, amount);
+        PickupItem(itemUI.Item, amount);
+    }
+
+    //拾取物品槽中所有数量的物品
+    public void PickupItem(ItemBase item, int amount)
+    {
+        PickedItem.SetItem(item, amount);
         IsPickedItem = true;
+        PickedItem.Show();
+        itemTip.Hide();
     }
 }
