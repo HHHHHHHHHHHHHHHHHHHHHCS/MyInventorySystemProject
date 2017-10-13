@@ -41,8 +41,29 @@ public class ItemUI : MonoBehaviour
     }
     #endregion
 
+    private float targetScale = 1;
+
+    private readonly Vector3 animationScale = new Vector3(1.4f, 1.4f, 1.4f);
+
+    private float smoothing = 4f;
+
+    private void Update()
+    {
+        if (transform.localScale.x != targetScale)
+        {
+            //动画
+            float scale = Mathf.Lerp(transform.localScale.x, targetScale, smoothing * Time.deltaTime);
+            transform.localScale = new Vector3(scale, scale, scale);
+            if(Mathf.Abs(transform.localScale.x-targetScale) <= 0.02f)
+            {
+                transform.localScale = new Vector3(targetScale, targetScale, targetScale);
+            }
+        }
+    }
+
     public void SetItem(ItemBase item, int amount = 1)
     {
+        transform.localScale = animationScale;
         Item = item;
         Amount = amount;
         //更新显示UI
@@ -58,6 +79,7 @@ public class ItemUI : MonoBehaviour
 
     public void AddAmount(int number = 1)
     {
+        transform.localScale = animationScale;
         Amount += number;
         //更新显示UI
         SetText(Amount);
@@ -71,7 +93,7 @@ public class ItemUI : MonoBehaviour
 
     private void SetText(int number)
     {
-        AmountText.text = needShowText?number.ToString():"";
+        AmountText.text = needShowText ? number.ToString() : "";
     }
 
 
