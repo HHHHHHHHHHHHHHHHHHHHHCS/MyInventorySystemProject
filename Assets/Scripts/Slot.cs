@@ -60,7 +60,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         {
             string toolTipText = transform.GetChild(0).GetComponent<ItemUI>()
                 .Item.GetItemTipText();
-            InventoryManager.Instnace.ShowItemTip(toolTipText);
+            InventoryManager.Instance.ShowItemTip(toolTipText);
         }
     }
 
@@ -69,7 +69,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         if (transform.childCount > 0)
         {
-            InventoryManager.Instnace.HideItemTip();
+            InventoryManager.Instance.HideItemTip();
         }
     }
 
@@ -99,14 +99,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             ItemUI currentItem = transform.GetChild(0).GetComponent<ItemUI>();
 
             //鼠标上的物品是空的
-            if (!InventoryManager.Instnace.IsPickedItem)
+            if (!InventoryManager.Instance.IsPickedItem)
             {
                 if (Input.GetKey(KeyCode.LeftControl))
                 {
                     int amountPicked = (int)Mathf.Ceil(currentItem.Amount / 2.0f);
-                    InventoryManager.Instnace.PickupItem(currentItem, amountPicked);
+                    InventoryManager.Instance.PickupItem(currentItem, amountPicked);
                     int amountRemained = currentItem.Amount - amountPicked;
-                    if(amountRemained<=0)
+                    if (amountRemained <= 0)
                     {
                         Destroy(currentItem.gameObject);//销毁当前物品
                     }
@@ -117,14 +117,49 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
                 }
                 else
                 {
-                    InventoryManager.Instnace.PickupItem(currentItem);
+                    InventoryManager.Instance.PickupItem(currentItem);
                     Destroy(currentItem.gameObject);//销毁当前物品
-                } 
+                }
             }
             else
             {
-                InventoryManager.Instnace.PickupItem(currentItem);
-                Destroy(currentItem.gameObject);
+                if (currentItem.Item.ID == InventoryManager.Instance.PickedItem.Item.ID)
+                {
+                    if (Input.GetKey(KeyCode.LeftControl))
+                    {
+                        if (currentItem.Item.Capacity > currentItem.Amount)
+                        {
+                            currentItem.AddAmount();
+                            InventoryManager.Instance.RemoveOneItem();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if(currentItem.Item.Capacity>currentItem.Amount)
+                        {
+                            int amountRemain = currentItem.Item.Capacity - currentItem.Amount;
+                            if(amountRemain>=InventoryManager.Instance.PickedItem.Amount)
+                            {
+                                currentItem.SetAmount(currentItem.Amount + InventoryManager.Instance.PickedItem.Amount);
+                                InventoryManager.Instance.RemoveAllItem();
+                            }
+                            else
+                            {
+                                currentItem.SetAmount(currentItem.Amount + amountRemain);
+                                InventoryManager.Instance.RemoveItem(amountRemain);
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                }
+
             }
         }
 

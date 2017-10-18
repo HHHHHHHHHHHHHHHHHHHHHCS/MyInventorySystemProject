@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
     #region
     private static InventoryManager _instance;
 
-    public static InventoryManager Instnace
+    public static InventoryManager Instance
     {
         get
         {
@@ -62,7 +62,7 @@ public class InventoryManager : MonoBehaviour
         Canvas canvas = GameObject.Find("UIRoot").GetComponent<Canvas>();
         canvasRT = canvas.transform as RectTransform;
         canvasCamera = canvas.worldCamera;
-        Instnace.ParseItemJson();
+        Instance.ParseItemJson();
         itemTip = FindObjectOfType<ItemTip>();
         HideItemTip();
         pickedItem = GameObject.Find("PickedItem").GetComponent<ItemUI>();
@@ -224,5 +224,29 @@ public class InventoryManager : MonoBehaviour
         IsPickedItem = true;
         PickedItem.Show();
         itemTip.Hide();
+    }
+
+    /// <summary>
+    /// 从手上拿掉一个物品放在物品槽里面
+    /// </summary>
+    public void RemoveOneItem()
+    {
+        RemoveItem(1);
+    }
+
+    public void RemoveAllItem()
+    {
+        IsPickedItem = false;
+        PickedItem.Hide();
+    }
+
+    public void RemoveItem(int number)
+    {
+        PickedItem.ReduceAmount(number);
+        if (PickedItem.Amount <= 0)
+        {
+            IsPickedItem = false;
+            PickedItem.Hide();
+        }
     }
 }

@@ -16,7 +16,7 @@ public class InventoryBase : MonoBehaviour
 
     public bool StoreItem(int id)
     {
-        ItemBase item = InventoryManager.Instnace.GetItemByID(id);
+        ItemBase item = InventoryManager.Instance.GetItemByID(id);
         return StoreItem(item);
     }
 

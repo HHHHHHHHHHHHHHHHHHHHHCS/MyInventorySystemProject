@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ItemUI : MonoBehaviour
 {
     #region UI Variable 
-    public ItemBase Item { get; set; }
-    public int Amount { get; set; }
+    public ItemBase Item { get;private set; }
+    public int Amount { get; private set; }
 
     private Image itemImage;
     private Text amountText;
@@ -82,6 +82,13 @@ public class ItemUI : MonoBehaviour
         transform.localScale = animationScale;
         Amount += number;
         //更新显示UI
+        SetText(Amount);
+    }
+
+    public void ReduceAmount(int number =1)
+    {
+        transform.localScale = animationScale;
+        Amount -= number;
         SetText(Amount);
     }
 
