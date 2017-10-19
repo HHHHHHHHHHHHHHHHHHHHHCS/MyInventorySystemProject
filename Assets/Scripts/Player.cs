@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     {
 	    if(Input.GetKeyDown(KeyCode.G))
         {
-            int id = Random.Range(1, 18);
+            int id = Random.Range(1, 3);
             Knapsack.Instance.StoreItem(id);
         }
 	}

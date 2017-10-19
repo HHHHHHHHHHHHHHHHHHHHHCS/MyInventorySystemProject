@@ -162,6 +162,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
             }
         }
+        else
+        {
+            if(InventoryManager.Instance.IsPickedItem )
+            {
+                if(Input.GetKey(KeyCode.LeftControl))
+                {
+                    StoreItem(InventoryManager.Instance.PickedItem.Item);
+                    InventoryManager.Instance.RemoveOneItem();
+                }
+                else
+                {
+                    for(int i=0;i<InventoryManager.Instance.PickedItem.Amount;i++  )
+                    {
+                        StoreItem(InventoryManager.Instance.PickedItem.Item);
+                    }
+                    InventoryManager.Instance.RemoveAllItem();
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
 
     }
 }
