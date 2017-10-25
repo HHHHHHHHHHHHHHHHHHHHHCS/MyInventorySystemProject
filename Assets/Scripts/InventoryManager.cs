@@ -89,6 +89,14 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+
+        //物品丢弃处理 
+        if(IsPickedItem&&Input.GetMouseButtonDown(0)
+            &&!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            IsPickedItem = false;
+            PickedItem.Hide();
+        }
     }
 
     private Vector2 ScreenPointToUI()

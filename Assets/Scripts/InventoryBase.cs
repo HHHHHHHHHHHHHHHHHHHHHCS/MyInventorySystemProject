@@ -8,9 +8,30 @@ public class InventoryBase : MonoBehaviour
 
     private Slot[] slotList;
 
-    void Start()
+    private float targetAlpha = 1;
+    private float smoothing = 4;
+    private CanvasGroup canvasGroup;
+
+    void Awake()
     {
         slotList = GetComponentsInChildren<Slot>();
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    private void Update()
+    {
+        if(canvasGroup.alpha!=targetAlpha)
+        {
+            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, smoothing * Time.deltaTime);
+            if(Mathf.Abs(canvasGroup.alpha-targetAlpha)<=0.01f)
+            {
+                canvasGroup.alpha = targetAlpha;
+                if(targetAlpha==0)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
     }
 
 
@@ -93,5 +114,28 @@ public class InventoryBase : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void Show()
+    {
+        targetAlpha = 1;
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        targetAlpha = 0;
+    }
+
+    public void DisplaySwitch()
+    {
+        if(targetAlpha==0)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
     }
 }
