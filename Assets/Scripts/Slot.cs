@@ -159,7 +159,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
                         }
                     }
                 }
-
+                else
+                {
+                    ItemBase item = currentItem.Item;
+                    int amount = currentItem.Amount;
+                    currentItem.SetItem(InventoryManager.Instance.PickedItem.Item,
+                        InventoryManager.Instance.PickedItem.Amount);
+                    InventoryManager.Instance.PickupItem(item, amount);
+                }
             }
         }
         else

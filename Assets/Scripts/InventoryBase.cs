@@ -120,11 +120,13 @@ public class InventoryBase : MonoBehaviour
     {
         targetAlpha = 1;
         gameObject.SetActive(true);
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void Hide()
     {
         targetAlpha = 0;
+        canvasGroup.blocksRaycasts = true;
     }
 
     public void DisplaySwitch()
