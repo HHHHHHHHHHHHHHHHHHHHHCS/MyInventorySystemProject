@@ -2,6 +2,7 @@
 {
     public enum ItemWeaponType
     {
+        None,
         MainHand,
         OffHand
     }

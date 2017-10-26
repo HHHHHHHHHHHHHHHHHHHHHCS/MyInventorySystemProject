@@ -3,6 +3,7 @@
 
     public enum EquipmentType
     {
+        None,
         Head,
         Neck,
         Chest,

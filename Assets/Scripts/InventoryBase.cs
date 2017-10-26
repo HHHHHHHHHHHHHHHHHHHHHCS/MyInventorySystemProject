@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class InventoryBase : MonoBehaviour
 {
-
-
-    private Slot[] slotList;
+    protected Slot[] slotList;
 
     private float targetAlpha = 1;
     private float smoothing = 4;
     private CanvasGroup canvasGroup;
 
-    void Awake()
+    protected virtual void Awake()
     {
         slotList = GetComponentsInChildren<Slot>();
         canvasGroup = GetComponent<CanvasGroup>();

@@ -73,7 +73,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         //自身是空的 
         //  1、pickedItem!=null pickedItem放在这个位置
