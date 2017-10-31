@@ -156,7 +156,7 @@ public class InventoryManager : MonoBehaviour
                 case ItemBase.ItemType.Weapon:
                     int damage = (int)temp["damage"];
                     Weapon.ItemWeaponType weaponType = (Weapon.ItemWeaponType)System.Enum.Parse(
-                        typeof(Weapon.ItemWeaponType), temp["damage"].ToString());
+                        typeof(Weapon.ItemWeaponType), temp["weaponType"].ToString());
                     item = new Weapon(id, name, type, qualityType, description, capacity
                         , buyPrice, sellPrice, sprite, damage, weaponType);
                     break;

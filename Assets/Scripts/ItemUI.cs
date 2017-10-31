@@ -72,6 +72,14 @@ public class ItemUI : MonoBehaviour
         SetText(Amount);
     }
 
+    public void Exchange(ItemUI itemUI)
+    {
+        ItemBase itemTemp = itemUI.Item;
+        int amountTemp = itemUI.Amount;
+        itemUI.SetItem(Item, Amount);
+        SetItem(itemTemp, amountTemp);
+    }
+
     public void SetItemUI(ItemUI itemUI)
     {
         SetItem(itemUI.Item, itemUI.Amount);
