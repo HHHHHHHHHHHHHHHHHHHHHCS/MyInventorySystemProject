@@ -75,122 +75,140 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        //自身是空的 
-        //  1、pickedItem!=null pickedItem放在这个位置
-        //      按下CTRL 放置当前鼠标上的物品一个
-        //      没有按下CTRL 放置当前鼠标上的物品的所有
-        //  2、pickedItem==null 不做任何处理
-        //自身不是空的
-        //  1、pickedItem!=null pickedItem  跟当前物品进行交换
-        //      自身的 id==pickedItem.id
-        //          按下CTRL 放置当前鼠标上的物品一个
-        //          没有按下CTRL 放置当前鼠标上的物品的所有物品
-        //              可以完全放下
-        //              只能放下其中一部分
-        //      自身的 id!=pickedItem.id  pickedItem跟当前物品交换
-        //  2、pickedItem==null 把当前物品槽里面的物品放在鼠标上
-        //      ctrl按下 取得当前物品槽中物品的一半
-        //      ctrl没有按下的时候 把当前物品槽里面的物品放到鼠标上 
 
-
-        //自身不是空的
-        if (transform.childCount > 0)
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            ItemUI currentItem = transform.GetChild(0).GetComponent<ItemUI>();
-
-            //鼠标上的物品是空的
-            if (!InventoryManager.Instance.IsPickedItem)
+            if (transform.childCount > 0)
             {
-                if (Input.GetKey(KeyCode.LeftControl))
+                ItemUI currentItemUI = transform.GetChild(0).GetComponent<ItemUI>();
+                if (currentItemUI.Item is Equip || currentItemUI.Item is Weapon)
                 {
-                    int amountPicked = (int)Mathf.Ceil(currentItem.Amount / 2.0f);
-                    InventoryManager.Instance.PickupItem(currentItem, amountPicked);
-                    int amountRemained = currentItem.Amount - amountPicked;
-                    if (amountRemained <= 0)
-                    {
-                        Destroy(currentItem.gameObject);//销毁当前物品
-                    }
-                    else
-                    {
-                        currentItem.SetAmount(amountRemained);
-                    }
-                }
-                else
-                {
-                    InventoryManager.Instance.PickupItem(currentItem);
-                    Destroy(currentItem.gameObject);//销毁当前物品
-                }
-            }
-            else
-            {
-                if (currentItem.Item.ID == InventoryManager.Instance.PickedItem.Item.ID)
-                {
-                    if (Input.GetKey(KeyCode.LeftControl))
-                    {
-                        if (currentItem.Item.Capacity > currentItem.Amount)
-                        {
-                            currentItem.AddAmount();
-                            InventoryManager.Instance.RemoveOneItem();
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if(currentItem.Item.Capacity>currentItem.Amount)
-                        {
-                            int amountRemain = currentItem.Item.Capacity - currentItem.Amount;
-                            if(amountRemain>=InventoryManager.Instance.PickedItem.Amount)
-                            {
-                                currentItem.SetAmount(currentItem.Amount + InventoryManager.Instance.PickedItem.Amount);
-                                InventoryManager.Instance.RemoveAllItem();
-                            }
-                            else
-                            {
-                                currentItem.SetAmount(currentItem.Amount + amountRemain);
-                                InventoryManager.Instance.RemoveItem(amountRemain);
-                            }
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    ItemBase item = currentItem.Item;
-                    int amount = currentItem.Amount;
-                    currentItem.SetItem(InventoryManager.Instance.PickedItem.Item,
-                        InventoryManager.Instance.PickedItem.Amount);
-                    InventoryManager.Instance.PickupItem(item, amount);
+                    ItemBase item = currentItemUI.Item;
+                    currentItemUI.ReduceAmount(1);
+                    Character.Instance.PutOn(item);
                 }
             }
         }
-        else
+        else if (eventData.button == PointerEventData.InputButton.Left)
         {
-            if(InventoryManager.Instance.IsPickedItem )
+            //自身是空的 
+            //  1、pickedItem!=null pickedItem放在这个位置
+            //      按下CTRL 放置当前鼠标上的物品一个
+            //      没有按下CTRL 放置当前鼠标上的物品的所有
+            //  2、pickedItem==null 不做任何处理
+            //自身不是空的
+            //  1、pickedItem!=null pickedItem  跟当前物品进行交换
+            //      自身的 id==pickedItem.id
+            //          按下CTRL 放置当前鼠标上的物品一个
+            //          没有按下CTRL 放置当前鼠标上的物品的所有物品
+            //              可以完全放下
+            //              只能放下其中一部分
+            //      自身的 id!=pickedItem.id  pickedItem跟当前物品交换
+            //  2、pickedItem==null 把当前物品槽里面的物品放在鼠标上
+            //      ctrl按下 取得当前物品槽中物品的一半
+            //      ctrl没有按下的时候 把当前物品槽里面的物品放到鼠标上 
+
+
+            //自身不是空的
+            if (transform.childCount > 0)
             {
-                if(Input.GetKey(KeyCode.LeftControl))
+                ItemUI currentItem = transform.GetChild(0).GetComponent<ItemUI>();
+
+                //鼠标上的物品是空的
+                if (!InventoryManager.Instance.IsPickedItem)
                 {
-                    StoreItem(InventoryManager.Instance.PickedItem.Item);
-                    InventoryManager.Instance.RemoveOneItem();
+                    if (Input.GetKey(KeyCode.LeftControl))
+                    {
+                        int amountPicked = (int)Mathf.Ceil(currentItem.Amount / 2.0f);
+                        InventoryManager.Instance.PickupItem(currentItem, amountPicked);
+                        int amountRemained = currentItem.Amount - amountPicked;
+                        if (amountRemained <= 0)
+                        {
+                            Destroy(currentItem.gameObject);//销毁当前物品
+                        }
+                        else
+                        {
+                            currentItem.SetAmount(amountRemained);
+                        }
+                    }
+                    else
+                    {
+                        InventoryManager.Instance.PickupItem(currentItem);
+                        Destroy(currentItem.gameObject);//销毁当前物品
+                    }
                 }
                 else
                 {
-                    for(int i=0;i<InventoryManager.Instance.PickedItem.Amount;i++  )
+                    if (currentItem.Item.ID == InventoryManager.Instance.PickedItem.Item.ID)
                     {
-                        StoreItem(InventoryManager.Instance.PickedItem.Item);
+                        if (Input.GetKey(KeyCode.LeftControl))
+                        {
+                            if (currentItem.Item.Capacity > currentItem.Amount)
+                            {
+                                currentItem.AddAmount();
+                                InventoryManager.Instance.RemoveOneItem();
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (currentItem.Item.Capacity > currentItem.Amount)
+                            {
+                                int amountRemain = currentItem.Item.Capacity - currentItem.Amount;
+                                if (amountRemain >= InventoryManager.Instance.PickedItem.Amount)
+                                {
+                                    currentItem.SetAmount(currentItem.Amount + InventoryManager.Instance.PickedItem.Amount);
+                                    InventoryManager.Instance.RemoveAllItem();
+                                }
+                                else
+                                {
+                                    currentItem.SetAmount(currentItem.Amount + amountRemain);
+                                    InventoryManager.Instance.RemoveItem(amountRemain);
+                                }
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
                     }
-                    InventoryManager.Instance.RemoveAllItem();
+                    else
+                    {
+                        ItemBase item = currentItem.Item;
+                        int amount = currentItem.Amount;
+                        currentItem.SetItem(InventoryManager.Instance.PickedItem.Item,
+                            InventoryManager.Instance.PickedItem.Amount);
+                        InventoryManager.Instance.PickupItem(item, amount);
+                    }
                 }
             }
             else
             {
-                return;
+                if (InventoryManager.Instance.IsPickedItem)
+                {
+                    if (Input.GetKey(KeyCode.LeftControl))
+                    {
+                        StoreItem(InventoryManager.Instance.PickedItem.Item);
+                        InventoryManager.Instance.RemoveOneItem();
+                    }
+                    else
+                    {
+                        for (int i = 0; i < InventoryManager.Instance.PickedItem.Amount; i++)
+                        {
+                            StoreItem(InventoryManager.Instance.PickedItem.Item);
+                        }
+                        InventoryManager.Instance.RemoveAllItem();
+                    }
+                }
+                else
+                {
+                    return;
+                }
             }
+
         }
 
     }

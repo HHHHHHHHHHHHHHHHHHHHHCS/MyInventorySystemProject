@@ -98,6 +98,7 @@ public class ItemUI : MonoBehaviour
         transform.localScale = animationScale;
         Amount -= number;
         SetText(Amount);
+        DestoryByAmount();
     }
 
     public void SetAmount(int number)
@@ -125,5 +126,13 @@ public class ItemUI : MonoBehaviour
     public void SetLocalPosition(Vector3 position)
     {
         transform.localPosition = position;
+    }
+
+    public void DestoryByAmount()
+    {
+        if(Amount<=0)
+        {
+            DestroyImmediate(gameObject);
+        }
     }
 }
