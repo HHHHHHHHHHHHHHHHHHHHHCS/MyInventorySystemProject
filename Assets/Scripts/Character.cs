@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : InventoryBase
 {
@@ -22,6 +23,7 @@ public class Character : InventoryBase
 
     private Slot mainHandSlot;
     private Slot offHandSlot;
+    private Text propertyText;
 
     protected override void Awake()
     {
@@ -60,8 +62,13 @@ public class Character : InventoryBase
         }
     }
 
-    public void PutOff()
+    public void PutOff(ItemBase item)
     {
+        Knapsack.Instance.StoreItem(item);
+    }
 
+    private void UpdatePropertyText()
+    {
+        
     }
 }

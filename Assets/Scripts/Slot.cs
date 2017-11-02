@@ -78,7 +78,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (transform.childCount > 0)
+            if (!InventoryManager.Instance.IsPickedItem && transform.childCount > 0)
             {
                 ItemUI currentItemUI = transform.GetChild(0).GetComponent<ItemUI>();
                 if (currentItemUI.Item is Equip || currentItemUI.Item is Weapon)

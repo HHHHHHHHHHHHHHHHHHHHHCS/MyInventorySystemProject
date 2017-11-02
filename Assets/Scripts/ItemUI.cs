@@ -133,6 +133,7 @@ public class ItemUI : MonoBehaviour
         if(Amount<=0)
         {
             DestroyImmediate(gameObject);
+            InventoryManager.Instance.HideItemTip();
         }
     }
 }

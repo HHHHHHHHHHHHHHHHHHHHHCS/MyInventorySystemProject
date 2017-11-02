@@ -10,33 +10,45 @@ public class EquipmentSlot : Slot
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        //手上有东西
-        //  当前装备槽有装备
-        //  当前装备槽无装备
-        //书上没东西
-        //  当前装备槽有装备
-        //  当前装备槽没有装备
-
-        if (InventoryManager.Instance.IsPickedItem)
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            ItemUI pickedItem = InventoryManager.Instance.PickedItem;
-
-            //手上有东西的情况
-            if (transform.childCount > 0)
+            if (!InventoryManager.Instance.IsPickedItem && transform.childCount > 0)
             {
                 ItemUI currentItemUI = transform.GetChild(0).GetComponent<ItemUI>();
-
-                if(CanWearItem(pickedItem.Item))
-                {
-                    InventoryManager.Instance.PickedItem.Exchange(currentItemUI);
-                }
+                transform.parent.parent.GetComponent<Character>().PutOff(currentItemUI.Item);
+                DestroyImmediate(currentItemUI.gameObject);
+                InventoryManager.Instance.HideItemTip();
             }
-            else
+        }
+        else if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            //手上有东西
+            //  当前装备槽有装备
+            //  当前装备槽无装备
+            //书上没东西
+            //  当前装备槽有装备
+            //  当前装备槽没有装备
+            if (InventoryManager.Instance.IsPickedItem)
             {
-                if(CanWearItem(pickedItem.Item))
+                ItemUI pickedItem = InventoryManager.Instance.PickedItem;
+
+                //手上有东西的情况
+                if (transform.childCount > 0)
                 {
-                    StoreItem(InventoryManager.Instance.PickedItem.Item);
-                    InventoryManager.Instance.RemoveOneItem();
+                    ItemUI currentItemUI = transform.GetChild(0).GetComponent<ItemUI>();
+
+                    if (CanWearItem(pickedItem.Item))
+                    {
+                        InventoryManager.Instance.PickedItem.Exchange(currentItemUI);
+                    }
+                }
+                else
+                {
+                    if (CanWearItem(pickedItem.Item))
+                    {
+                        StoreItem(InventoryManager.Instance.PickedItem.Item);
+                        InventoryManager.Instance.RemoveOneItem();
+                    }
                 }
             }
         }
