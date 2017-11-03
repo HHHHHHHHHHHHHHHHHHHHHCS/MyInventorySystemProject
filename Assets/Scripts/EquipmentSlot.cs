@@ -10,14 +10,16 @@ public class EquipmentSlot : Slot
 
     public override void OnPointerDown(PointerEventData eventData)
     {
+
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             if (!InventoryManager.Instance.IsPickedItem && transform.childCount > 0)
             {
                 ItemUI currentItemUI = transform.GetChild(0).GetComponent<ItemUI>();
-                transform.parent.parent.GetComponent<Character>().PutOff(currentItemUI.Item);
+                ItemBase item = currentItemUI.Item;
                 DestroyImmediate(currentItemUI.gameObject);
                 InventoryManager.Instance.HideItemTip();
+                Character.Instance.PutOff(item);
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Left)
@@ -30,6 +32,7 @@ public class EquipmentSlot : Slot
             //  当前装备槽没有装备
             if (InventoryManager.Instance.IsPickedItem)
             {
+                bool needUpdateProperty = false;
                 ItemUI pickedItem = InventoryManager.Instance.PickedItem;
 
                 //手上有东西的情况
@@ -40,6 +43,7 @@ public class EquipmentSlot : Slot
                     if (CanWearItem(pickedItem.Item))
                     {
                         InventoryManager.Instance.PickedItem.Exchange(currentItemUI);
+                        needUpdateProperty = true;
                     }
                 }
                 else
@@ -48,10 +52,16 @@ public class EquipmentSlot : Slot
                     {
                         StoreItem(InventoryManager.Instance.PickedItem.Item);
                         InventoryManager.Instance.RemoveOneItem();
+                        needUpdateProperty = true;
                     }
+                }
+                if (needUpdateProperty)
+                {
+                    Character.Instance.ChangeEquipment();
                 }
             }
         }
+
     }
 
     /// <summary>

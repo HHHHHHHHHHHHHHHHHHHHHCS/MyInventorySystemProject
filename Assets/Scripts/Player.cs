@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    #region Instance
+    private static Player _instance;
+
+    public static Player Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.Find("Player").GetComponent<Player>();
+            }
+            return _instance;
+        }
+    }
+    #endregion
     #region Player Property
     private int basicStrength = 10;
     private int basicIntellect = 10;
