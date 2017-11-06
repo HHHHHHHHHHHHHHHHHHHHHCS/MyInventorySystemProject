@@ -67,6 +67,8 @@ public class Player : MonoBehaviour
     }
     #endregion 
 
+    private int coinAmount = 100;
+
     void Update()
     {
         PlayerKeyCtrl();
@@ -93,4 +95,38 @@ public class Player : MonoBehaviour
             Character.Instance.DisplaySwitch();
         }
     }
+
+    /// <summary>
+    /// 消费
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns></returns>
+    public bool ConsureCoin(int amount)
+    {
+        if(coinAmount>=amount)
+        {
+            coinAmount -= amount;
+            RefreshCoinUI();
+            return true;
+        }
+        return false;
+    }
+
+
+    /// <summary>
+    /// 赚取金币 
+    /// </summary>
+    /// <param name="amount"></param>
+    public void EarnCoin(int amount)
+    {
+        coinAmount += amount;
+        RefreshCoinUI();
+    }
+
+    public void RefreshCoinUI()
+    {
+        Knapsack.Instance.ChangeCoin(coinAmount);
+    }
+
+
 }

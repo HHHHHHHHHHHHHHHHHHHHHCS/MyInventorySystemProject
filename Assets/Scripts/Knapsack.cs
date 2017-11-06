@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Knapsack : InventoryBase
 {
@@ -18,5 +19,19 @@ public class Knapsack : InventoryBase
         }
 
     }
-#endregion
+    #endregion
+
+    private Text coinText;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        coinText = transform.Find("Coin/CoinText").GetComponent<Text>();
+
+    }
+
+    public void ChangeCoin(int amount)
+    {
+        coinText.text = amount.ToString();
+    }
 }
