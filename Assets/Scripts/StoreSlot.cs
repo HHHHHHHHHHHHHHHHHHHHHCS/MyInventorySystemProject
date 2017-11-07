@@ -16,5 +16,10 @@ public class StoreSlot : Slot
                 Store.Instance.BuyItem(currentItem);
             }
         }
+        else if(eventData.button == PointerEventData.InputButton.Left
+            && InventoryManager.Instance.IsPickedItem)
+        {
+            Store.Instance.SellItem();
+        }
     }
 }

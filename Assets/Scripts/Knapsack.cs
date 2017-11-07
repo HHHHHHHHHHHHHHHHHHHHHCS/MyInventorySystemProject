@@ -30,6 +30,7 @@ public class Knapsack : InventoryBase
 
     }
 
+
     public void ChangeCoin(int amount)
     {
         coinText.text = amount.ToString();

@@ -30,18 +30,41 @@ public class Store : InventoryBase
 
     private void InitShop()
     {
-        foreach(int itemID in itemIDArray)
+        foreach (int itemID in itemIDArray)
         {
             StoreItem(itemID);
         }
     }
 
+    /// <summary>
+    /// 主角购买
+    /// </summary>
+    /// <param name="item"></param>
     public void BuyItem(ItemBase item)
     {
         bool isSuccess = Player.Instance.ConsureCoin(item.BuyPrice);
-        if(isSuccess)
+        if (isSuccess)
         {
             Knapsack.Instance.StoreItem(item);
         }
+    }
+
+    /// <summary>
+    /// 主角出售物品
+    /// </summary>
+    public void SellItem()
+    {
+        ItemUI itemUI = InventoryManager.Instance.PickedItem;
+        int sellAmount = itemUI.Amount;
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            sellAmount = 1;
+        }
+
+
+        int coinAmount = itemUI.Item.SellPrice * sellAmount;
+        InventoryManager.Instance.RemoveItem(sellAmount);
+        Player.Instance.EarnCoin(coinAmount);
+
     }
 }

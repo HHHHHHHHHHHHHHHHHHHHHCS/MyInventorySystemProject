@@ -69,6 +69,11 @@ public class Player : MonoBehaviour
 
     private int coinAmount = 100;
 
+    private void Start()
+    {
+        RefreshCoinUI();
+    }
+
     void Update()
     {
         PlayerKeyCtrl();

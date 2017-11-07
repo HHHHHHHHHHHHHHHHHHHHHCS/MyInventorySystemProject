@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ItemUI : MonoBehaviour
 {
     #region UI Variable 
-    public ItemBase Item { get;private set; }
-    public int Amount { get; private set; }
+    public ItemBase Item { get; protected set; }
+    public int Amount { get; protected set; }
 
     private Image itemImage;
     private Text amountText;
@@ -43,7 +43,7 @@ public class ItemUI : MonoBehaviour
 
     private float targetScale = 1;
 
-    private readonly Vector3 animationScale = new Vector3(1.4f, 1.4f, 1.4f);
+    protected readonly Vector3 animationScale = new Vector3(1.4f, 1.4f, 1.4f);
 
     private float smoothing = 4f;
 
@@ -93,7 +93,7 @@ public class ItemUI : MonoBehaviour
         SetText(Amount);
     }
 
-    public void ReduceAmount(int number =1)
+    public virtual void ReduceAmount(int number =1)
     {
         transform.localScale = animationScale;
         Amount -= number;
@@ -107,7 +107,7 @@ public class ItemUI : MonoBehaviour
         SetText(Amount);
     }
 
-    private void SetText(int number)
+    protected void SetText(int number)
     {
         AmountText.text = needShowText ? number.ToString() : "";
     }
