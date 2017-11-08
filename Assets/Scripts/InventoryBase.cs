@@ -18,13 +18,13 @@ public class InventoryBase : MonoBehaviour
 
     private void Update()
     {
-        if(canvasGroup.alpha!=targetAlpha)
+        if (canvasGroup.alpha != targetAlpha)
         {
             canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, smoothing * Time.deltaTime);
-            if(Mathf.Abs(canvasGroup.alpha-targetAlpha)<=0.01f)
+            if (Mathf.Abs(canvasGroup.alpha - targetAlpha) <= 0.01f)
             {
                 canvasGroup.alpha = targetAlpha;
-                if(targetAlpha==0)
+                if (targetAlpha == 0)
                 {
                     gameObject.SetActive(false);
                 }
@@ -93,7 +93,7 @@ public class InventoryBase : MonoBehaviour
             {
                 return slot;
             }
- 
+
         }
         return null;
     }
@@ -121,15 +121,20 @@ public class InventoryBase : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void Hide()
+    public void Hide(bool isQuickly = false)
     {
         targetAlpha = 0;
         canvasGroup.blocksRaycasts = true;
+        if (isQuickly)
+        {
+            canvasGroup.alpha = targetAlpha;
+            gameObject.SetActive(false);
+        }
     }
 
     public void DisplaySwitch()
     {
-        if(targetAlpha==0)
+        if (targetAlpha == 0)
         {
             Show();
         }

@@ -10,10 +10,10 @@ public class Store : InventoryBase
     {
         get
         {
-            if (!_instance)
+            /*if (!_instance)
             {
-                _instance = GameObject.Find("UIRoot/StorePanel").GetComponent<Store>();
-            }
+                _instance = GameObject.Find("UIRoot").GetComponent<Store>();
+            }*/
             return _instance;
         }
 
@@ -21,6 +21,16 @@ public class Store : InventoryBase
     #endregion
 
     public int[] itemIDArray;
+
+
+    protected override  void Awake()
+    {
+        base.Awake();
+        if(!_instance)
+        {
+            _instance = this;
+        }
+    }
 
     protected virtual void Start()
     {

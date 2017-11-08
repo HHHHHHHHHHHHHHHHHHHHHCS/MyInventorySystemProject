@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         RefreshCoinUI();
+        Store.Instance.Hide(true);
     }
 
     void Update()
@@ -98,6 +99,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             Character.Instance.DisplaySwitch();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Store.Instance.DisplaySwitch();
         }
     }
 

@@ -12,10 +12,10 @@ public class Character : InventoryBase
     {
         get
         {
-            if (_instance == null)
+            /*if (_instance == null)
             {
                 _instance = GameObject.Find("CharacterPanel").GetComponent<Character>();
-            }
+            }*/
             return _instance;
         }
     }
@@ -28,6 +28,10 @@ public class Character : InventoryBase
     protected override void Awake()
     {
         base.Awake();
+        if (!_instance)
+        {
+            _instance = this;
+        }
         mainHandSlot = transform.Find("SlotPanel/MainHandSlot").GetComponent<EquipmentSlot>();
         offHandSlot = transform.Find("SlotPanel/OffHandSlot").GetComponent<EquipmentSlot>();
         propertyText = transform.Find("PlayerPropertyText").GetComponent<Text>();

@@ -5,18 +5,28 @@ using UnityEngine;
 public class Chest : InventoryBase
 {
     #region Instance
-    private static Knapsack _instance;
-    public static Knapsack Instance
+    private static Chest _instance;
+    public static Chest Instance
     {
         get
         {
-            if (!_instance)
+            /*if (!_instance)
             {
-                _instance = GameObject.Find("UIRoot/ChestPanel").GetComponent<Knapsack>();
-            }
+                _instance = GameObject.Find("UIRoot/ChestPanel").GetComponent<Chest>();
+            }*/
             return _instance;
         }
 
     }
     #endregion
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (!_instance)
+        {
+            _instance = this;
+        }
+
+    }
 }

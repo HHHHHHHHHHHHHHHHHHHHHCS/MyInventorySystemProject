@@ -26,8 +26,11 @@ public class Knapsack : InventoryBase
     protected override void Awake()
     {
         base.Awake();
+        if (!_instance)
+        {
+            _instance = this;
+        }
         coinText = transform.Find("Coin/CoinText").GetComponent<Text>();
-
     }
 
 
