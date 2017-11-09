@@ -241,7 +241,7 @@
         "type": "Material",
         "quality": "Common",
         "description": "我是用了干别的！",
-        "capacity": 1,
+        "capacity": 20,
         "buyPrice": 200,
         "sellPrice": 100,
         "sprite": "Items/ingots"
