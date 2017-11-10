@@ -5,18 +5,18 @@ using UnityEngine;
 public class Store : InventoryBase
 {
     #region Instance
-    private static Store _instance;
+    //private static Store _instance;
     public static Store Instance
     {
-        get
-        {
-            /*if (!_instance)
+        get;
+        /*{
+            if (!_instance)
             {
-                _instance = GameObject.Find("UIRoot").GetComponent<Store>();
-            }*/
+                _instance = GameObject.Find("UIRoot/StorePanel").GetComponent<Store>();
+            }
             return _instance;
-        }
-
+        }*/
+        private set;
     }
     #endregion
 
@@ -26,9 +26,9 @@ public class Store : InventoryBase
     protected override  void Awake()
     {
         base.Awake();
-        if(!_instance)
+        if(!Instance)
         {
-            _instance = this;
+            Instance = this;
         }
     }
 

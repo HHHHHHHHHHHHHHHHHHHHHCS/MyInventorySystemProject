@@ -15,18 +15,18 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     /// 如果没有 根据itemPrefab 去实例化 一个item 放在下面
     /// </summary>
     /// <param name="item"></param>
-    public void StoreItem(ItemBase item)
+    public void StoreItem(ItemBase item, int amount = 1)
     {
         if (transform.childCount == 0)
         {
             Transform itemTransform = Instantiate(itemPrefab).transform;
             itemTransform.SetParent(transform);
             itemTransform.localPosition = Vector3.zero;
-            itemTransform.GetComponent<ItemUI>().SetItem(item);
+            itemTransform.GetComponent<ItemUI>().SetItem(item, amount);
         }
         else
         {
-            transform.GetChild(0).GetComponent<ItemUI>().AddAmount();
+            transform.GetChild(0).GetComponent<ItemUI>().AddAmount(amount);
         }
     }
 

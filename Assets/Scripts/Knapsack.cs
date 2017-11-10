@@ -5,19 +5,25 @@ using UnityEngine.UI;
 
 public class Knapsack : InventoryBase
 {
-#region Instance
-    private static Knapsack _instance;
+
+    public Knapsack()
+    {
+        fileName = FilePath.knapsack;
+    }
+
+    #region Instance
+    //private static Knapsack _instance;
     public static Knapsack Instance
     {
-        get
-        {
+        get;
+        /*{
             if (!_instance)
             {
                 _instance = GameObject.Find("UIRoot/KnapsackPanel").GetComponent<Knapsack>();
             }
             return _instance;
-        }
-
+        }*/
+        private set;
     }
     #endregion
 
@@ -26,9 +32,9 @@ public class Knapsack : InventoryBase
     protected override void Awake()
     {
         base.Awake();
-        if (!_instance)
+        if (!Instance)
         {
-            _instance = this;
+            Instance = this;
         }
         coinText = transform.Find("Coin/CoinText").GetComponent<Text>();
     }
@@ -38,4 +44,5 @@ public class Knapsack : InventoryBase
     {
         coinText.text = amount.ToString();
     }
+
 }

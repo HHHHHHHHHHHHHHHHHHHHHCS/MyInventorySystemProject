@@ -1,22 +1,26 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     #region Instance
-    private static Player _instance;
+    //private static Player _instance;
 
     public static Player Instance
     {
-        get
-        {
+        get;
+        /*{
             if (_instance == null)
             {
                 _instance = GameObject.Find("Player").GetComponent<Player>();
             }
             return _instance;
-        }
+        }*/
+
+        private set;
     }
     #endregion
     #region Player Property
@@ -67,7 +71,16 @@ public class Player : MonoBehaviour
     }
     #endregion 
 
+    private const string fileName = FilePath.player;
     private int coinAmount = 100;
+
+    private void Awake()
+    {
+        if(!Instance)
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -84,7 +97,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            int id = Random.Range(15, 18);
+            int id = Random.Range(1, 18);
             Knapsack.Instance.StoreItem(id);
         }
 
@@ -103,6 +116,20 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             Store.Instance.DisplaySwitch();
+            Forge.Instance.Hide(true);
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Forge.Instance.DisplaySwitch();
+            Store.Instance.Hide(true);
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            InventoryManager.Instance.SaveInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            InventoryManager.Instance.LoadInventory();
         }
     }
 
@@ -113,7 +140,7 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public bool ConsureCoin(int amount)
     {
-        if(coinAmount>=amount)
+        if (coinAmount >= amount)
         {
             coinAmount -= amount;
             RefreshCoinUI();
@@ -138,5 +165,30 @@ public class Player : MonoBehaviour
         Knapsack.Instance.ChangeCoin(coinAmount);
     }
 
-
+    public void SavePlayer()
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic.Add("coinAmount", coinAmount);
+        dic.Add("basicStrength", BasicStrength);
+        dic.Add("basicIntellect", BasicIntellect);
+        dic.Add("basicAgility", BasicAgility);
+        dic.Add("basicStamina", BasicStamina);
+        dic.Add("basicDamage", BasicDamage);
+        string json = JsonConvert.SerializeObject(dic);
+        FileManager.SaveFile(FilePath.saveDirectory, fileName, json);
+    }
+    public void LoadPlayer()
+    {
+        string result = FileManager.LoadFile(FilePath.saveDirectory, fileName);
+        if (result != null)
+        {
+            JToken jArray = JToken.Parse(result);
+            coinAmount = (int)(jArray["coinAmount"]);
+            basicStrength = (int)(jArray["basicStrength"]);
+            basicIntellect = (int)(jArray["basicIntellect"]);
+            basicAgility = (int)(jArray["basicAgility"]);
+            basicStamina = (int)(jArray["basicStamina"]);
+            basicDamage = (int)(jArray["basicDamage"]);
+        }
+    }
 }

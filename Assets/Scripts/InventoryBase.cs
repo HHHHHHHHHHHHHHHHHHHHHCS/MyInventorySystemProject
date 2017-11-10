@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class InventoryBase : MonoBehaviour
 {
     protected Slot[] slotList;
+    protected string fileName;
 
     private float targetAlpha = 1;
     private float smoothing = 4;
@@ -32,6 +34,53 @@ public class InventoryBase : MonoBehaviour
         }
     }
 
+    #region save and load
+    public void SaveInventory()
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (Slot slot in slotList)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                ItemUI itemUI = slot.transform.GetChild(0).GetComponent<ItemUI>();
+                sb.Append(string.Format("[{0},{1}]", itemUI.Item.ID, itemUI.Amount));
+            }
+            else
+            {
+                sb.Append(string.Format("[0,0]"));
+            }
+        }
+        FileManager.SaveFile(FilePath.saveDirectory, fileName, sb.ToString());
+    }
+
+    public void LoadInventory()
+    {
+        string result = FileManager.LoadFile(FilePath.saveDirectory, fileName);
+        if (result != null)
+        {
+            string[] itemArray = result.Split(']');
+            var imInstance = InventoryManager.Instance;
+            for (int i = 0; i < itemArray.Length; i++)
+            {
+                var item = itemArray[i];
+                if (!string.IsNullOrEmpty(item))
+                {
+                    int pos = item.IndexOf(',');
+                    int itemID = int.Parse(item.Substring(1, pos - 1));
+                    int itemAmount = int.Parse(item.Substring(pos + 1));
+                    if (itemID != 0 && itemAmount != 0)
+                    {
+                        var _item = imInstance.GetItemByID(itemID);
+                        slotList[i].StoreItem(_item, itemAmount);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    #endregion
 
     public bool StoreItem(int id)
     {
@@ -118,13 +167,13 @@ public class InventoryBase : MonoBehaviour
     {
         targetAlpha = 1;
         gameObject.SetActive(true);
-        canvasGroup.blocksRaycasts = false;
+        canvasGroup.blocksRaycasts = true;
     }
 
     public void Hide(bool isQuickly = false)
     {
         targetAlpha = 0;
-        canvasGroup.blocksRaycasts = true;
+        canvasGroup.blocksRaycasts = false;
         if (isQuickly)
         {
             canvasGroup.alpha = targetAlpha;

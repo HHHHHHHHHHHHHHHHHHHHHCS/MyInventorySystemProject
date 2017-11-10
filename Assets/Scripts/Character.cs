@@ -5,19 +5,26 @@ using UnityEngine.UI;
 
 public class Character : InventoryBase
 {
+    public Character()
+    {
+        fileName = FilePath.character;
+    }
+
     #region Instance
-    private static Character _instance;
+    //private static Character _instance;
 
     public static Character Instance
     {
-        get
-        {
-            /*if (_instance == null)
+        get;
+        /*{
+            if (_instance == null)
             {
                 _instance = GameObject.Find("CharacterPanel").GetComponent<Character>();
-            }*/
+            }
             return _instance;
-        }
+        }*/
+
+        private set;
     }
     #endregion
 
@@ -28,13 +35,17 @@ public class Character : InventoryBase
     protected override void Awake()
     {
         base.Awake();
-        if (!_instance)
+        if (!Instance)
         {
-            _instance = this;
+            Instance = this;
         }
         mainHandSlot = transform.Find("SlotPanel/MainHandSlot").GetComponent<EquipmentSlot>();
         offHandSlot = transform.Find("SlotPanel/OffHandSlot").GetComponent<EquipmentSlot>();
         propertyText = transform.Find("PlayerPropertyText").GetComponent<Text>();
+    }
+
+    private void Start()
+    {
         UpdatePropertyText();
     }
 
@@ -84,9 +95,9 @@ public class Character : InventoryBase
     {
         int strength = 0, intellect = 0, agility = 0
             , stamina = 0, damage = 0;
-        foreach(EquipmentSlot slot in slotList)
+        foreach (EquipmentSlot slot in slotList)
         {
-            if (slot.transform.childCount>0)
+            if (slot.transform.childCount > 0)
             {
                 ItemBase item = slot.transform.GetChild(0).GetComponent<ItemUI>().Item;
                 if (item is Equip)
@@ -97,7 +108,7 @@ public class Character : InventoryBase
                     agility += e.Agility;
                     stamina += e.Stamina;
                 }
-                else if(item is Weapon)
+                else if (item is Weapon)
                 {
                     Weapon e = item as Weapon;
                     damage += e.Damage;
@@ -105,7 +116,7 @@ public class Character : InventoryBase
             }
         }
         Player player = Player.Instance;
-        strength+=  player.BasicStrength;
+        strength += player.BasicStrength;
         intellect += player.BasicIntellect;
         agility += player.BasicAgility;
         stamina += player.BasicStamina;

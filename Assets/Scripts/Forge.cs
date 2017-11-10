@@ -7,11 +7,36 @@ using UnityEngine.UI;
 
 public class Forge : InventoryBase
 {
+    public Forge()
+    {
+        fileName = FilePath.forge;
+    }
+
+    #region Instance
+    //private static Forge _instance;
+    public static Forge Instance
+    {
+        get;
+        /*{
+            if (!_instance)
+            {
+                _instance = GameObject.Find("UIRoot/ForgePanel").GetComponent<Forge>();
+            }
+            return _instance;
+        }*/
+        private set;
+    }
+    #endregion
+
     private List<Formula> formulaList;
 
     protected override void Awake()
     {
         base.Awake();
+        if (!Instance)
+        {
+            Instance = this;
+        }
         ParseItemJson();
         transform.Find("ContentPanel/ForgeButton").GetComponent<Button>()
             .onClick.AddListener(ForgeItem);
@@ -60,20 +85,20 @@ public class Forge : InventoryBase
 
 
         Formula formula = null;
-        foreach(var item in formulaList)
+        foreach (var item in formulaList)
         {
             bool isMatch = item.Match(haveMateriaList);
-            if(isMatch)
+            if (isMatch)
             {
                 formula = item;
                 break;
             }
         }
-        if(formula!=null)
+        if (formula != null)
         {
-            foreach(var item in itemList)
+            foreach (var item in itemList)
             {
-                if(item.Item.ID==formula.Item1_ID)
+                if (item.Item.ID == formula.Item1_ID)
                 {
                     item.ReduceAmount(formula.Item1_Amount);
                 }

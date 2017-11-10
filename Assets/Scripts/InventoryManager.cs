@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class InventoryManager : MonoBehaviour
     }
     #endregion
 
-    private List<ItemBase> itemList;
+    private HashSet<ItemBase> itemList;
 
 
     #region  ItemTip
@@ -69,7 +70,24 @@ public class InventoryManager : MonoBehaviour
         pickedItem.gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        LoadInventory();
+    }
+
     private void Update()
+    {
+        MovePickedItem();
+        //物品丢弃处理 
+        if (IsPickedItem && Input.GetMouseButtonDown(0)
+            && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            IsPickedItem = false;
+            PickedItem.Hide();
+        }
+    }
+
+    private void MovePickedItem()
     {
         if (IsPickedItem || isToolTipShow)
         {
@@ -89,14 +107,6 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-
-        //物品丢弃处理 
-        if(IsPickedItem&&Input.GetMouseButtonDown(0)
-            &&!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-        {
-            IsPickedItem = false;
-            PickedItem.Hide();
-        }
     }
 
     private Vector2 ScreenPointToUI()
@@ -112,7 +122,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     void ParseItemJson()
     {
-        itemList = new List<ItemBase>();
+        itemList = new HashSet<ItemBase>();
         //文本在UNITY 里面是TextAsset类型
         TextAsset itemJson = Resources.Load<TextAsset>("Json/ItemJson");
         string itemJsonText = itemJson.text;
@@ -172,6 +182,28 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+    #region save and load
+    public void SaveInventory()
+    {
+        Knapsack.Instance.SaveInventory();
+        Chest.Instance.SaveInventory();
+        Character.Instance.SaveInventory();
+        Forge.Instance.SaveInventory();
+        Player.Instance.SavePlayer();
+    }
+
+    public void LoadInventory()
+    {
+        Knapsack.Instance.LoadInventory();
+        Chest.Instance.LoadInventory();
+        Character.Instance.LoadInventory();
+        Forge.Instance.LoadInventory();
+        Player.Instance.LoadPlayer();
+    }
+
+
+    #endregion
+
 
     public ItemBase GetItemByID(int id)
     {
@@ -202,6 +234,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         isToolTipShow = true;
+
     }
 
     public void HideItemTip()
@@ -232,6 +265,7 @@ public class InventoryManager : MonoBehaviour
         IsPickedItem = true;
         PickedItem.Show();
         itemTip.Hide();
+        MovePickedItem();
     }
 
     /// <summary>
